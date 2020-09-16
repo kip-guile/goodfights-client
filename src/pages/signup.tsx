@@ -1,8 +1,17 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Row, Col, Form, Input, Button } from 'antd'
 import { GoogleOutlined } from '@ant-design/icons'
+import { signupObject, signupProps } from '../interfaces/signupinterfaces'
+import { signupUser } from '../actions/users'
+import { StoreState } from '../redux/reducers'
 
-const Signup = () => {
+const SignUp = ({ signupUser, user }: signupProps) => {
+  const [form] = Form.useForm()
+  const onFinish = (values: signupObject) => {
+    console.log('Received values of form: ', values)
+    signupUser(values)
+  }
   const layout = {
     labelCol: {
       xs: { span: 24 },
@@ -65,9 +74,9 @@ const Signup = () => {
               {...layout}
               style={{ width: '80%' }}
               layout='vertical'
-              // form={form}
-              name='register'
-              // onFinish={onFinish}
+              form={form}
+              name='signup'
+              onFinish={onFinish}
               scrollToFirstError
             >
               <Form.Item
@@ -76,11 +85,25 @@ const Signup = () => {
                 rules={[
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
+                    message: 'Please enter a valid E-mail!',
                   },
                   {
                     required: true,
                     message: 'Please input your E-mail!',
+                  },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+
+              <Form.Item
+                name='username'
+                label='Username'
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter your username',
+                    whitespace: true,
                   },
                 ]}
               >
@@ -93,7 +116,7 @@ const Signup = () => {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Please enter your password!',
                   },
                 ]}
                 hasFeedback
@@ -102,7 +125,7 @@ const Signup = () => {
               </Form.Item>
 
               <Form.Item
-                name='confirm'
+                name='confirmPassword'
                 label='Confirm Password'
                 dependencies={['password']}
                 hasFeedback
@@ -116,9 +139,7 @@ const Signup = () => {
                       if (!value || getFieldValue('password') === value) {
                         return Promise.resolve()
                       }
-                      return Promise.reject(
-                        'The two passwords that you entered do not match!'
-                      )
+                      return Promise.reject('Enter matching passwords')
                     },
                   }),
                 ]}
@@ -126,23 +147,15 @@ const Signup = () => {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                name='username'
-                label='Username'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                    whitespace: true,
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
               <Form.Item {...tailLayout}>
-                <Button block size='large' type='primary' htmlType='submit'>
-                  Register
+                <Button
+                  loading={user.loading}
+                  block
+                  size='large'
+                  type='primary'
+                  htmlType='submit'
+                >
+                  Sign Up
                 </Button>
               </Form.Item>
 
@@ -166,4 +179,12 @@ const Signup = () => {
   )
 }
 
-export default Signup
+const mapStateToProps = ({ user }: StoreState) => {
+  return { user }
+}
+
+const mapActionsToProps = {
+  signupUser,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(SignUp)
