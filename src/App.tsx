@@ -8,13 +8,16 @@ import store from './redux/store'
 
 // Pages
 import Signup from './pages/signup'
+import Landing from './pages/landing'
 
 function App() {
   return (
     <Provider store={store}>
       <Router>
         <Switch>
-          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/' component={Landing} />
+          <Route path='/auth/:token' component={Landing} />
+          <Route path='/signup' component={Signup} />
         </Switch>
       </Router>
     </Provider>

@@ -7,7 +7,9 @@ export interface signupObject {
 
 export interface signupProps {
   signupUser(user: signupObject): any
+  // googleSignUp(): any
   user: signupSuccessObject
+  history: any
 }
 
 export interface signupSuccessObject {

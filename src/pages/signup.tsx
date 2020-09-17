@@ -5,11 +5,11 @@ import { GoogleOutlined } from '@ant-design/icons'
 import { signupObject, signupProps } from '../interfaces/signupinterfaces'
 import { signupUser } from '../actions/users'
 import { StoreState } from '../redux/reducers'
+import { baseUrl } from '../config'
 
 const SignUp = ({ signupUser, user }: signupProps) => {
   const [form] = Form.useForm()
   const onFinish = (values: signupObject) => {
-    console.log('Received values of form: ', values)
     signupUser(values)
   }
   const layout = {
@@ -37,6 +37,7 @@ const SignUp = ({ signupUser, user }: signupProps) => {
   return (
     <div
       style={{
+        backgroundColor: '#ebe8df',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -45,8 +46,8 @@ const SignUp = ({ signupUser, user }: signupProps) => {
       }}
     >
       <Row gutter={4} style={{ display: 'flex' }}>
-        <Col xs={2} sm={4} md={6} lg={8} xl={6} xxl={10}></Col>
-        <Col xs={20} sm={16} md={12} lg={8} xl={12} xxl={4}>
+        <Col xs={2} sm={4} md={6} lg={8} xl={6} xxl={8}></Col>
+        <Col xs={20} sm={16} md={12} lg={8} xl={12} xxl={8}>
           <div
             style={{
               width: '100%',
@@ -54,18 +55,19 @@ const SignUp = ({ signupUser, user }: signupProps) => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              backgroundColor: '#ffffff',
             }}
           >
             <div
               style={{
-                margin: '2rem',
+                margin: '1.3rem',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
             >
-              <h2>Sign Up for Goodfights</h2>
-              <p>
+              <h2 style={{ textAlign: 'center' }}>Sign Up for Goodfights</h2>
+              <p style={{ textAlign: 'center' }}>
                 Sign up to see what fights your friends are watching, and join
                 the world's largest community of UFC fans
               </p>
@@ -79,6 +81,32 @@ const SignUp = ({ signupUser, user }: signupProps) => {
               onFinish={onFinish}
               scrollToFirstError
             >
+              <Form.Item {...tailLayout}>
+                <a href={`${baseUrl}/auth/google`}>
+                  <Button
+                    // onClick={googleSignUp}
+                    loading={user.loading}
+                    danger
+                    type='primary'
+                    icon={<GoogleOutlined />}
+                    block
+                    size='large'
+                  >
+                    Continue with Google
+                  </Button>
+                </a>
+              </Form.Item>
+              <div
+                style={{
+                  margin: '1rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <p style={{ textAlign: 'center' }}>or</p>
+                <h2>Sign Up with Email</h2>
+              </div>
               <Form.Item
                 name='email'
                 label='E-mail'
@@ -158,22 +186,13 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                   Sign Up
                 </Button>
               </Form.Item>
-
-              <Form.Item {...tailLayout}>
-                <Button
-                  danger
-                  type='primary'
-                  icon={<GoogleOutlined />}
-                  block
-                  size='large'
-                >
-                  Sign Up with Google
-                </Button>
-              </Form.Item>
+              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
+                Already a member? Sign in
+              </p>
             </Form>
           </div>
         </Col>
-        <Col xs={2} sm={4} md={6} lg={8} xl={6} xxl={10}></Col>
+        <Col xs={2} sm={4} md={6} lg={8} xl={6} xxl={8}></Col>
       </Row>
     </div>
   )
@@ -185,6 +204,7 @@ const mapStateToProps = ({ user }: StoreState) => {
 
 const mapActionsToProps = {
   signupUser,
+  // googleSignUp,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(SignUp)
