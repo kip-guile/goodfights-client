@@ -7,7 +7,7 @@ import { signupUser } from '../actions/users'
 import { StoreState } from '../redux/reducers'
 import { baseUrl } from '../config'
 
-const SignUp = ({ signupUser, user }: signupProps) => {
+const Login = ({ signupUser, user }: signupProps) => {
   const [form] = Form.useForm()
   const onFinish = (values: signupObject) => {
     signupUser(values)
@@ -66,11 +66,7 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                 alignItems: 'center',
               }}
             >
-              <h2 style={{ textAlign: 'center' }}>Sign Up for Goodfights</h2>
-              <p style={{ textAlign: 'center' }}>
-                Sign up to see what fights your friends are watching, and join
-                the world's largest community of UFC fans
-              </p>
+              <h2 style={{ textAlign: 'center' }}>Sign in to Goodfights</h2>
             </div>
             <Form
               {...layout}
@@ -84,7 +80,6 @@ const SignUp = ({ signupUser, user }: signupProps) => {
               <Form.Item {...tailLayout}>
                 <a href={`${baseUrl}/auth/google`}>
                   <Button
-                    // onClick={googleSignUp}
                     loading={user.loading}
                     danger
                     type='primary'
@@ -98,14 +93,13 @@ const SignUp = ({ signupUser, user }: signupProps) => {
               </Form.Item>
               <div
                 style={{
-                  margin: '1rem',
+                  margin: '0.8rem',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
                 }}
               >
                 <p style={{ textAlign: 'center' }}>or</p>
-                <h2>Sign Up with Email</h2>
               </div>
               <Form.Item
                 name='email'
@@ -118,20 +112,6 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                   {
                     required: true,
                     message: 'Please input your E-mail!',
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item
-                name='username'
-                label='Username'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter your username',
-                    whitespace: true,
                   },
                 ]}
               >
@@ -152,29 +132,6 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                 <Input.Password />
               </Form.Item>
 
-              <Form.Item
-                name='confirmPassword'
-                label='Confirm Password'
-                dependencies={['password']}
-                hasFeedback
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please confirm your password!',
-                  },
-                  ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                      if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve()
-                      }
-                      return Promise.reject('Enter matching passwords')
-                    },
-                  }),
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
               <Form.Item {...tailLayout}>
                 <Button
                   loading={user.loading}
@@ -183,11 +140,14 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                   type='primary'
                   htmlType='submit'
                 >
-                  Sign Up
+                  Sign in
                 </Button>
               </Form.Item>
               <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Already a member? Sign in
+                Forgot password
+              </p>
+              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
+                Not a member? Sign up
               </p>
             </Form>
           </div>
@@ -206,4 +166,4 @@ const mapActionsToProps = {
   signupUser,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(SignUp)
+export default connect(mapStateToProps, mapActionsToProps)(Login)

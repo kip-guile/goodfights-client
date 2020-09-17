@@ -9,6 +9,7 @@ import store from './redux/store'
 // Pages
 import Signup from './pages/signup'
 import Landing from './pages/landing'
+import login from './pages/login'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/' component={Landing} />
           <Route path='/auth/:token' component={Landing} />
           <Route path='/signup' component={Signup} />
+          <Route path='/login' component={login} />
         </Switch>
       </Router>
     </Provider>
