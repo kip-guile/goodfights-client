@@ -5,11 +5,19 @@ export interface signupObject {
   confirmPassword: string
 }
 
+export interface loginObject {
+  username: string
+  password: string
+}
+
 export interface signupProps {
   signupUser(user: signupObject): any
-  // googleSignUp(): any
   user: signupSuccessObject
-  history: any
+}
+
+export interface loginProps {
+  loginUser(user: loginObject): any
+  user: signupSuccessObject
 }
 
 export interface signupSuccessObject {
@@ -18,4 +26,13 @@ export interface signupSuccessObject {
   id: string
   username: string
   loading?: boolean
+}
+
+export interface forgotProps {
+  resetPassword(email: string): any
+}
+
+export interface changeObject {
+  resetLink: String
+  newPass: String
 }

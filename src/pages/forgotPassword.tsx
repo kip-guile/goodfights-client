@@ -1,17 +1,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Input, Button } from 'antd'
-import { NavLink } from 'react-router-dom'
-import { GoogleOutlined } from '@ant-design/icons'
-import { loginObject, loginProps } from '../interfaces/signupinterfaces'
-import { loginUser } from '../actions/users'
-import { StoreState } from '../redux/reducers'
-import { baseUrl } from '../config'
+import { forgotProps } from '../interfaces/signupinterfaces'
+import { resetPassword } from '../actions/users'
 
-const Login = ({ loginUser, user }: loginProps) => {
+const ForgotPassword = ({ resetPassword }: forgotProps) => {
   const [form] = Form.useForm()
-  const onFinish = (values: loginObject) => {
-    loginUser(values)
+  const onFinish = (values: any) => {
+    resetPassword(values.email)
   }
   const layout = {
     labelCol: {
@@ -67,7 +63,7 @@ const Login = ({ loginUser, user }: loginProps) => {
                 alignItems: 'center',
               }}
             >
-              <h2 style={{ textAlign: 'center' }}>Sign in to Goodfights</h2>
+              <h2 style={{ textAlign: 'center' }}>Reset your password</h2>
             </div>
             <Form
               {...layout}
@@ -78,33 +74,9 @@ const Login = ({ loginUser, user }: loginProps) => {
               onFinish={onFinish}
               scrollToFirstError
             >
-              <Form.Item {...tailLayout}>
-                <a href={`${baseUrl}/auth/google`}>
-                  <Button
-                    loading={user.loading}
-                    danger
-                    type='primary'
-                    icon={<GoogleOutlined />}
-                    block
-                    size='large'
-                  >
-                    Continue with Google
-                  </Button>
-                </a>
-              </Form.Item>
-              <div
-                style={{
-                  margin: '0.8rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <p style={{ textAlign: 'center' }}>or</p>
-              </div>
               <Form.Item
                 name='email'
-                label='E-mail'
+                label='Email address'
                 rules={[
                   {
                     type: 'email',
@@ -119,37 +91,17 @@ const Login = ({ loginUser, user }: loginProps) => {
                 <Input />
               </Form.Item>
 
-              <Form.Item
-                name='password'
-                label='Password'
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter your password!',
-                  },
-                ]}
-                hasFeedback
-              >
-                <Input.Password />
-              </Form.Item>
-
               <Form.Item {...tailLayout}>
                 <Button
-                  loading={user.loading}
+                  style={{ backgroundColor: 'grey' }}
                   block
                   size='large'
                   type='primary'
                   htmlType='submit'
                 >
-                  Sign in
+                  Reset Password
                 </Button>
               </Form.Item>
-              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Forgot password
-              </p>
-              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Not a member? Sign up
-              </p>
             </Form>
           </div>
         </Col>
@@ -159,12 +111,10 @@ const Login = ({ loginUser, user }: loginProps) => {
   )
 }
 
-const mapStateToProps = ({ user }: StoreState) => {
-  return { user }
-}
+const mapStateToProps = () => {}
 
 const mapActionsToProps = {
-  loginUser,
+  resetPassword,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Login)
+export default connect(mapStateToProps, mapActionsToProps)(ForgotPassword)

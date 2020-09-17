@@ -9,7 +9,9 @@ import store from './redux/store'
 // Pages
 import Signup from './pages/signup'
 import Landing from './pages/landing'
-import login from './pages/login'
+import Login from './pages/login'
+import ForgotPassword from './pages/forgotPassword'
+import ChangePassword from './pages/changePassword'
 
 function App() {
   return (
@@ -17,9 +19,11 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Landing} />
-          <Route path='/auth/:token' component={Landing} />
+          <Route exact path='/auth/:token' component={Landing} />
+          <Route exact path='/login' component={Login} />
           <Route path='/signup' component={Signup} />
-          <Route path='/login' component={login} />
+          <Route path='/forgot' component={ForgotPassword} />
+          <Route path='/changepassword/:token' component={ChangePassword} />
         </Switch>
       </Router>
     </Provider>

@@ -1,17 +1,18 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Input, Button } from 'antd'
-import { NavLink } from 'react-router-dom'
-import { GoogleOutlined } from '@ant-design/icons'
-import { loginObject, loginProps } from '../interfaces/signupinterfaces'
-import { loginUser } from '../actions/users'
-import { StoreState } from '../redux/reducers'
-import { baseUrl } from '../config'
+import { loginObject } from '../interfaces/signupinterfaces'
+import { changePassword } from '../actions/users'
 
-const Login = ({ loginUser, user }: loginProps) => {
+const ChangePassword = (props: any) => {
+  const { changePassword, match } = props
+
   const [form] = Form.useForm()
   const onFinish = (values: loginObject) => {
-    loginUser(values)
+    changePassword({
+      resetLink: match.params.token,
+      newPass: values.password,
+    })
   }
   const layout = {
     labelCol: {
@@ -67,7 +68,7 @@ const Login = ({ loginUser, user }: loginProps) => {
                 alignItems: 'center',
               }}
             >
-              <h2 style={{ textAlign: 'center' }}>Sign in to Goodfights</h2>
+              <h2 style={{ textAlign: 'center' }}>Select new password</h2>
             </div>
             <Form
               {...layout}
@@ -78,50 +79,9 @@ const Login = ({ loginUser, user }: loginProps) => {
               onFinish={onFinish}
               scrollToFirstError
             >
-              <Form.Item {...tailLayout}>
-                <a href={`${baseUrl}/auth/google`}>
-                  <Button
-                    loading={user.loading}
-                    danger
-                    type='primary'
-                    icon={<GoogleOutlined />}
-                    block
-                    size='large'
-                  >
-                    Continue with Google
-                  </Button>
-                </a>
-              </Form.Item>
-              <div
-                style={{
-                  margin: '0.8rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-              >
-                <p style={{ textAlign: 'center' }}>or</p>
-              </div>
-              <Form.Item
-                name='email'
-                label='E-mail'
-                rules={[
-                  {
-                    type: 'email',
-                    message: 'Please enter a valid E-mail!',
-                  },
-                  {
-                    required: true,
-                    message: 'Please input your E-mail!',
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-
               <Form.Item
                 name='password'
-                label='Password'
+                label='New password'
                 rules={[
                   {
                     required: true,
@@ -133,23 +93,40 @@ const Login = ({ loginUser, user }: loginProps) => {
                 <Input.Password />
               </Form.Item>
 
+              <Form.Item
+                name='confirmPassword'
+                label='Confirm Password'
+                dependencies={['password']}
+                hasFeedback
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please confirm your password!',
+                  },
+                  ({ getFieldValue }) => ({
+                    validator(rule, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve()
+                      }
+                      return Promise.reject('Enter matching passwords')
+                    },
+                  }),
+                ]}
+              >
+                <Input.Password />
+              </Form.Item>
+
               <Form.Item {...tailLayout}>
                 <Button
-                  loading={user.loading}
+                  style={{ backgroundColor: 'grey' }}
                   block
                   size='large'
                   type='primary'
                   htmlType='submit'
                 >
-                  Sign in
+                  Reset Password
                 </Button>
               </Form.Item>
-              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Forgot password
-              </p>
-              <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Not a member? Sign up
-              </p>
             </Form>
           </div>
         </Col>
@@ -159,12 +136,10 @@ const Login = ({ loginUser, user }: loginProps) => {
   )
 }
 
-const mapStateToProps = ({ user }: StoreState) => {
-  return { user }
-}
+const mapStateToProps = () => {}
 
 const mapActionsToProps = {
-  loginUser,
+  changePassword,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Login)
+export default connect(mapStateToProps, mapActionsToProps)(ChangePassword)
