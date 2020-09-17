@@ -20,7 +20,7 @@ function App() {
         <Switch>
           <Route exact path='/' component={Landing} />
           <Route exact path='/auth/:token' component={Landing} />
-          <Route exact path='/login' component={Login} />
+          <Route path='/login' component={Login} />
           <Route path='/signup' component={Signup} />
           <Route path='/forgot' component={ForgotPassword} />
           <Route path='/changepassword/:token' component={ChangePassword} />

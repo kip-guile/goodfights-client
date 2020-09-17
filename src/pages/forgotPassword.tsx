@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { NavLink } from 'react-router-dom'
 import { Row, Col, Form, Input, Button } from 'antd'
 import { forgotProps } from '../interfaces/signupinterfaces'
 import { resetPassword } from '../actions/users'
 
-const ForgotPassword = ({ resetPassword }: forgotProps) => {
+const ForgotPassword = ({ resetPassword, history }: forgotProps) => {
   const [form] = Form.useForm()
   const onFinish = (values: any) => {
-    resetPassword(values.email)
+    resetPassword(values.email, history)
   }
   const layout = {
     labelCol: {
@@ -103,6 +104,18 @@ const ForgotPassword = ({ resetPassword }: forgotProps) => {
                 </Button>
               </Form.Item>
             </Form>
+            <div>
+              <p>
+                <NavLink
+                  to={{
+                    pathname: '/login',
+                    state: { errors: null, completed: false },
+                  }}
+                >
+                  Cancel
+                </NavLink>
+              </p>
+            </div>
           </div>
         </Col>
         <Col xs={2} sm={4} md={6} lg={8} xl={6} xxl={8}></Col>

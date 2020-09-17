@@ -1,3 +1,5 @@
+import { RouteComponentProps } from 'react-router-dom'
+
 export interface signupObject {
   email: string
   username: string
@@ -10,13 +12,13 @@ export interface loginObject {
   password: string
 }
 
-export interface signupProps {
-  signupUser(user: signupObject): any
+export interface signupProps extends RouteComponentProps<any> {
+  signupUser(user: signupObject, history: any): any
   user: signupSuccessObject
 }
 
-export interface loginProps {
-  loginUser(user: loginObject): any
+export interface loginProps extends RouteComponentProps<any> {
+  loginUser(user: loginObject, history: any): any
   user: signupSuccessObject
 }
 
@@ -28,8 +30,8 @@ export interface signupSuccessObject {
   loading?: boolean
 }
 
-export interface forgotProps {
-  resetPassword(email: string): any
+export interface forgotProps extends RouteComponentProps<any> {
+  resetPassword(email: string, history: any): any
 }
 
 export interface changeObject {

@@ -5,14 +5,17 @@ import { loginObject } from '../interfaces/signupinterfaces'
 import { changePassword } from '../actions/users'
 
 const ChangePassword = (props: any) => {
-  const { changePassword, match } = props
+  const { changePassword, match, history } = props
 
   const [form] = Form.useForm()
   const onFinish = (values: loginObject) => {
-    changePassword({
-      resetLink: match.params.token,
-      newPass: values.password,
-    })
+    changePassword(
+      {
+        resetLink: match.params.token,
+        newPass: values.password,
+      },
+      history
+    )
   }
   const layout = {
     labelCol: {

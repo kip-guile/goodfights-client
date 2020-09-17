@@ -1,16 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Input, Button } from 'antd'
+import { NavLink } from 'react-router-dom'
 import { GoogleOutlined } from '@ant-design/icons'
 import { signupObject, signupProps } from '../interfaces/signupinterfaces'
 import { signupUser } from '../actions/users'
 import { StoreState } from '../redux/reducers'
 import { baseUrl } from '../config'
 
-const SignUp = ({ signupUser, user }: signupProps) => {
+const SignUp = ({ signupUser, user, history }: signupProps) => {
   const [form] = Form.useForm()
   const onFinish = (values: signupObject) => {
-    signupUser(values)
+    signupUser(values, history)
   }
   const layout = {
     labelCol: {
@@ -187,7 +188,15 @@ const SignUp = ({ signupUser, user }: signupProps) => {
                 </Button>
               </Form.Item>
               <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Already a member? Sign in
+                Already a member?{' '}
+                <NavLink
+                  to={{
+                    pathname: '/login',
+                    state: { errors: null, completed: false },
+                  }}
+                >
+                  Sign in
+                </NavLink>
               </p>
             </Form>
           </div>

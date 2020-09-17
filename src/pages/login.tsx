@@ -1,17 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Row, Col, Form, Input, Button } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
 import { GoogleOutlined } from '@ant-design/icons'
 import { loginObject, loginProps } from '../interfaces/signupinterfaces'
 import { loginUser } from '../actions/users'
 import { StoreState } from '../redux/reducers'
 import { baseUrl } from '../config'
 
-const Login = ({ loginUser, user }: loginProps) => {
+const Login = ({ loginUser, user, history }: loginProps) => {
   const [form] = Form.useForm()
   const onFinish = (values: loginObject) => {
-    loginUser(values)
+    loginUser(values, history)
   }
   const layout = {
     labelCol: {
@@ -145,10 +145,25 @@ const Login = ({ loginUser, user }: loginProps) => {
                 </Button>
               </Form.Item>
               <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Forgot password
+                <NavLink
+                  to={{
+                    pathname: '/forgot',
+                    state: { errors: null, completed: false },
+                  }}
+                >
+                  Forgot password
+                </NavLink>
               </p>
               <p style={{ textAlign: 'center', fontSize: '0.8rem' }}>
-                Not a member? Sign up
+                Not a member?{' '}
+                <NavLink
+                  to={{
+                    pathname: '/signup',
+                    state: { errors: null, completed: false },
+                  }}
+                >
+                  Sign up
+                </NavLink>
               </p>
             </Form>
           </div>
@@ -167,4 +182,4 @@ const mapActionsToProps = {
   loginUser,
 }
 
-export default connect(mapStateToProps, mapActionsToProps)(Login)
+export default withRouter(connect(mapStateToProps, mapActionsToProps)(Login))

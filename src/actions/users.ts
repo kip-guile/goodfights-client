@@ -9,9 +9,8 @@ import { baseUrl } from '../config'
 import { ActionTypes } from '../redux/types'
 import { userLoadingAction, addUserAction, failedRequest } from './definitions'
 import { error, success, setToken } from '../helpers'
-import history from '../helpers/history'
 
-export const signupUser = (user: signupObject) => {
+export const signupUser = (user: signupObject, historys: any) => {
   return async (dispatch: Dispatch) => {
     dispatch<userLoadingAction>({
       type: ActionTypes.userLoading,
@@ -20,7 +19,7 @@ export const signupUser = (user: signupObject) => {
       const response = await axios.post(`${baseUrl}/auth/register`, user)
       setToken(response.data.token)
       success('Check email inbox to verify your email address')
-      history.push('/')
+      historys.push('/')
       dispatch<addUserAction>({
         type: ActionTypes.addUser,
         payload: response.data.user,
@@ -34,33 +33,33 @@ export const signupUser = (user: signupObject) => {
   }
 }
 
-export const resetPassword = (email: String) => {
+export const resetPassword = (email: String, historys: any) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.put(`${baseUrl}/auth/forgotpassword`, {
         email: email,
       })
       success(`${response.data.message}: Check email inbox to reset password`)
-      history.push('/')
+      historys.push('/')
     } catch (err) {
       error(err.message, 'Signup failed')
     }
   }
 }
 
-export const changePassword = (data: changeObject) => {
+export const changePassword = (data: changeObject, historys: any) => {
   return async (dispatch: Dispatch) => {
     try {
       const response = await axios.put(`${baseUrl}/auth/resetpassword`, data)
       success(response.data.message)
-      history.push('/login')
+      historys.push('/login')
     } catch (err) {
       error(err.message, 'Signup failed')
     }
   }
 }
 
-export const loginUser = (user: loginObject) => {
+export const loginUser = (user: loginObject, historys: any) => {
   return async (dispatch: Dispatch) => {
     dispatch<userLoadingAction>({
       type: ActionTypes.userLoading,
@@ -72,7 +71,7 @@ export const loginUser = (user: loginObject) => {
         payload: response.data.user,
       })
       setToken(response.data.token)
-      history.push('/')
+      historys.push('/')
     } catch (err) {
       error(err.message, 'login failed')
       dispatch<failedRequest>({
@@ -82,7 +81,7 @@ export const loginUser = (user: loginObject) => {
   }
 }
 
-export const googleAuthorized = (token: String) => {
+export const googleAuthorized = (token: String, historys: any) => {
   return async (dispatch: Dispatch) => {
     dispatch<userLoadingAction>({
       type: ActionTypes.userLoading,
@@ -94,7 +93,7 @@ export const googleAuthorized = (token: String) => {
         payload: response.data.data.user,
       })
       setToken(token)
-      history.push('/')
+      historys.push('/')
     } catch (err) {
       console.log(err)
       dispatch<failedRequest>({

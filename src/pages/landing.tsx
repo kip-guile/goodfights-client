@@ -3,12 +3,12 @@ import { connect } from 'react-redux'
 import { googleAuthorized } from '../actions/users'
 
 const Landing = (props: any) => {
-  const { match, googleAuthorized } = props
+  const { match, googleAuthorized, history } = props
   useEffect(() => {
     if (match.params.hasOwnProperty('token')) {
-      googleAuthorized(match.params.token)
+      googleAuthorized(match.params.token, history)
     }
-  }, [googleAuthorized, match.params])
+  }, [googleAuthorized, match.params, history])
   return (
     <div
       style={{
