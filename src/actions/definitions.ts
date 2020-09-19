@@ -13,3 +13,16 @@ export interface addUserAction {
 export interface failedRequest {
   type: ActionTypes.failedRequest
 }
+
+export interface reviewsLoadingAction {
+  type: ActionTypes.reviewsLoading
+}
+
+export interface failedReviewsRequest {
+  type: ActionTypes.reviewsFailed
+}
+
+export interface fetchReviews {
+  type: ActionTypes.fetchReviews
+  payload: any
+}

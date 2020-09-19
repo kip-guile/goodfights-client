@@ -3,4 +3,8 @@ export enum ActionTypes {
   addUser,
   userLoading,
   failedRequest,
+  //review actions
+  fetchReviews,
+  reviewsLoading,
+  reviewsFailed,
 }

@@ -9,6 +9,7 @@ import { baseUrl } from '../config'
 import { ActionTypes } from '../redux/types'
 import { userLoadingAction, addUserAction, failedRequest } from './definitions'
 import { error, success, setToken } from '../helpers'
+import { axiosWithAuth } from '../utils/withAuth'
 
 export const signupUser = (user: signupObject, historys: any) => {
   return async (dispatch: Dispatch) => {
@@ -66,14 +67,30 @@ export const loginUser = (user: loginObject, historys: any) => {
     })
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, user)
-      dispatch<addUserAction>({
-        type: ActionTypes.addUser,
-        payload: response.data.user,
-      })
       setToken(response.data.token)
       historys.push('/')
     } catch (err) {
       error(err.message, 'login failed')
+      dispatch<failedRequest>({
+        type: ActionTypes.failedRequest,
+      })
+    }
+  }
+}
+
+export const fetchUser = () => {
+  return async (dispatch: Dispatch) => {
+    dispatch<userLoadingAction>({
+      type: ActionTypes.userLoading,
+    })
+    try {
+      const response = await axiosWithAuth().get(`${baseUrl}/users/`)
+      dispatch<addUserAction>({
+        type: ActionTypes.addUser,
+        payload: response.data,
+      })
+    } catch (err) {
+      error(err.message, 'fetch failed')
       dispatch<failedRequest>({
         type: ActionTypes.failedRequest,
       })
