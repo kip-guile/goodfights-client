@@ -12,10 +12,11 @@ export interface getReviews {
 }
 
 export interface reviewerReducerProps {
-  reviews: getReviews[]
+  reviews: any
   loading: boolean
 }
 
 export interface WelcomeProps {
   getReviews(): any
+  reviews: reviewerReducerProps
 }

@@ -1,5 +1,6 @@
 import { ActionTypes } from '../redux/types'
 import { signupSuccessObject } from '../interfaces/signupinterfaces'
+import { getReviews } from '../interfaces/reviewinterfaces'
 
 export interface userLoadingAction {
   type: ActionTypes.userLoading
@@ -24,5 +25,5 @@ export interface failedReviewsRequest {
 
 export interface fetchReviews {
   type: ActionTypes.fetchReviews
-  payload: any
+  payload: getReviews[]
 }

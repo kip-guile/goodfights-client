@@ -23,7 +23,7 @@ export const reviewReducer = (
       }
     case ActionTypes.fetchReviews:
       return {
-        fights: action.payload,
+        reviews: action.payload,
         loading: false,
       }
     case ActionTypes.reviewsFailed:
