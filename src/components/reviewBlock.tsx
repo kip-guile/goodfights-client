@@ -1,6 +1,7 @@
 import React from 'react'
 import { Rate, Image, Collapse, Space } from 'antd'
 
+//review compnt
 const ReviewBlock = ({
   reviewer_name,
   fight_title,
