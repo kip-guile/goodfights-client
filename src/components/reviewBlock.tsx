@@ -2,6 +2,7 @@ import React from 'react'
 import { Rate, Image, Collapse, Space } from 'antd'
 //new psh
 //review compnt
+// new cmnt
 const ReviewBlock = ({
   reviewer_name,
   fight_title,
